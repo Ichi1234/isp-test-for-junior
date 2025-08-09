@@ -26,11 +26,11 @@ jobs:
     
     - name: Tag & Push Backend image
       run: |
-        docker tag todo101-todo-backend choosenbanana/todo-backend:latest
+        docker tag isp-test-for-junior-todo-backend choosenbanana/todo-backend:latest
         docker push choosenbanana/todo-backend:latest
     
     - name: Tag & Push Frontend image
       run: |
-        docker tag todo101-todo-frontend choosenbanana/todo-frontend:latest
+        docker tag isp-test-for-junior-todo-frontend choosenbanana/todo-frontend:latest
         docker push choosenbanana/todo-frontend:latest
     
