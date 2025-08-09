@@ -24,12 +24,12 @@ jobs:
       run: |
         docker compose -f docker-compose.yml build
     
-    - names: Tag & Push Backend image
+    - name: Tag & Push Backend image
       run: |
         docker tag todo101-todo-backend choosenbanana/todo-backend:latest
         docker push choosenbanana/todo-backend:latest
     
-    - names: Tag & Push Frontend image
+    - name: Tag & Push Frontend image
       run: |
         docker tag todo101-todo-frontend choosenbanana/todo-frontend:latest
         docker push choosenbanana/todo-frontend:latest
