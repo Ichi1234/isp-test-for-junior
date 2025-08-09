@@ -1,36 +1,25 @@
-name: Docker Compose CI
+version: "1.0"
 
-on:
-  push: 
-    branches:
-      - main
-  workflow_dispatch:
+services:
+  mongo:
+    image: mongo
+    ports: 
+      - "27017:27017"
+    volumes:
+      - ./mongoMamgo:/data/db
 
-jobs:
-  build-and-push:
-    runs-on: ubuntu-latest
+  todo-backend:
+    build: ./backend
+    ports:
+      - "15000:15000"
+    environment:
+      - MONGO_URL=mongodb://mongo:27017/todos
+    depends_on:
+      - mongo
 
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
-
-    - name: Log in to Docker Hub
-      uses: docker/login-action@v2
-      with:
-        username: choosenbanana
-        password: ${{ secrets.DOCKER_HUB_TOKEN }}
-    
-    - name: Build and tag Docker images
-      run: |
-        docker compose -f docker-compose.yml build
-    
-    - name: Tag & Push Backend image
-      run: |
-        docker tag todo101-todo-backend choosenbanana/todo-backend:latest
-        docker push choosenbanana/todo-backend:latest
-    
-    - name: Tag & Push Frontend image
-      run: |
-        docker tag todo101-todo-frontend choosenbanana/todo-frontend:latest
-        docker push choosenbanana/todo-frontend:latest
-    
+  todo-frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - todo-backend
